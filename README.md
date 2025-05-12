@@ -1,1 +1,205 @@
-# 052625.6
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Will You Marry Me?</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: url('background.jpg') no-repeat center center fixed;
+      background-size: cover;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .overlay {
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 30px;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
+      width: 90%;
+      max-width: 500px;
+      opacity: 0;
+      animation: fadeIn 2s ease-in-out forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+      font-size: 30px;
+      color: #ff4081;
+      text-shadow: 0 0 10px #ff4081, 0 0 20px #ff4081;
+    }
+
+    #proposal {
+      font-size: 20px;
+      margin-bottom: 20px;
+      animation: fadeIn 3s ease;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      margin: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+    }
+
+    #yesBtn {
+      background-color: #28a745;
+      color: white;
+    }
+
+    #noBtn {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    .heart {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      font-size: 50px;
+      color: #ff4081;
+      animation: heartbeat 1s infinite;
+      z-index: 100;
+      transform-origin: center center;
+    }
+
+    @keyframes heartbeat {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+
+    .sparkle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 10px;
+      height: 10px;
+      background-color: #ff4081;
+      border-radius: 50%;
+      animation: sparkleEffect 0.8s linear infinite;
+    }
+
+    @keyframes sparkleEffect {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.5); opacity: 0.5; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    #loginPage, #proposalPage {
+      display: none;
+    }
+
+    #proposalPage.show, #loginPage.show {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+<audio autoplay loop id="backgroundMusic">
+  <source src="proposal.mp3" type="audio/mp3">
+  Your browser does not support the audio tag.
+</audio>
+
+<div class="overlay" id="loginPage">
+  <h2>Login</h2>
+  <input type="text" id="username" placeholder="Username"><br>
+  <input type="password" id="password" placeholder="Password"><br>
+  <button onclick="login()">Login</button>
+</div>
+
+<div class="overlay" id="proposalPage">
+  <div id="proposal">
+    I've loved you since I can't remember when,<br>
+    and I'm gonna love you till I can't forget how.<br><br>
+    <strong>Will you marry me?</strong>
+  </div>
+  <button id="yesBtn" onclick="sayYes()">Yes 💍</button>
+  <button id="noBtn" onclick="shrinkNo()">No 🙈</button>
+</div>
+
+<script>
+  const loginPage = document.getElementById("loginPage");
+  const proposalPage = document.getElementById("proposalPage");
+  const backgroundMusic = document.getElementById("backgroundMusic");
+
+  window.onload = function () {
+    loginPage.classList.add("show");
+  };
+
+  function login() {
+    const u = document.getElementById("username").value.trim();
+    const p = document.getElementById("password").value.trim();
+    if (u === "Tyri" && p === "0452") {
+      loginPage.style.display = "none";
+      proposalPage.classList.add("show");
+    } else {
+      alert("Incorrect username or password.");
+    }
+  }
+
+  let yesFont = 16;
+  let noFont = 16;
+
+  function shrinkNo() {
+    const yes = document.getElementById("yesBtn");
+    const no = document.getElementById("noBtn");
+    yesFont += 5;
+    noFont -= 2;
+    yes.style.fontSize = yesFont + "px";
+    no.style.fontSize = noFont + "px";
+    if (noFont <= 4) {
+      no.style.display = "none";
+    }
+  }
+
+  function sayYes() {
+    // Play wedding song on "Yes"
+    const weddingSong = new Audio('https://music.youtube.com/watch?v=1CDDGeK7dyo'); // Upload the wedding song file
+    weddingSong.play();
+    
+    // Heartbeat animation
+    const heart = document.createElement('div');
+    heart.classList.add('heart');
+    heart.innerHTML = '❤️';
+    document.body.appendChild(heart);
+
+    // Confetti effect
+    triggerConfetti();
+
+    // Display celebration message
+    setTimeout(() => {
+      alert("💖 She said YES! 💍💖");
+    }, 1000);
+  }
+
+  function triggerConfetti() {
+    for (let i = 0; i < 100; i++) {
+      const sparkle = document.createElement('div');
+      sparkle.classList.add('sparkle');
+      sparkle.style.left = Math.random() * 100 + 'vw';
+      sparkle.style.top = Math.random() * 100 + 'vh';
+      document.body.appendChild(sparkle);
+      setTimeout(() => {
+        sparkle.remove();
+      }, 1500);
+    }
+  }
+</script>
+
+</body>
+</html>
