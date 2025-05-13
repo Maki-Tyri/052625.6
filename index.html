@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Let’s do the ‘happily ever after’ thing</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: url('https://demo-source.imgix.net/puppy.jpg?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
+      background-size: cover;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .overlay {
+      background-color: rgba(255, 255, 255, 0.85);
+      padding: 30px;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
+      width: 90%;
+      max-width: 500px;
+      margin: auto;
+      margin-top: 8%;
+      opacity: 0;
+      animation: fadeIn 2s ease-in-out forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+      font-size: 30px;
+      color: #ff4081;
+      text-shadow: 0 0 10px #ff4081, 0 0 20px #ff4081;
+    }
+
+    #proposal {
+      font-size: 20px;
+      margin-bottom: 20px;
+      animation: fadeIn 3s ease;
+      color: #4d0039;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      margin: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+    }
+
+    #yesBtn {
+      background-color: #28a745;
+      color: white;
+    }
+
+    #noBtn {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    .heart {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      font-size: 50px;
+      color: #ff4081;
+      animation: heartbeat 1s infinite;
+      z-index: 100;
+      transform-origin: center center;
+    }
+
+    @keyframes heartbeat {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+
+    .sparkle {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: #ff4081;
+      border-radius: 50%;
+      animation: sparkleEffect 0.8s linear infinite;
+    }
+
+    @keyframes sparkleEffect {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.5); opacity: 0.5; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    #loginPage, #proposalPage {
+      display: none;
+    }
+
+    #loginPage.show, #proposalPage.show {
+      display: block;
+    }
+
+    iframe {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<!-- 🎵 Background Music via YouTube -->
+<iframe
+  id="ytplayer"
+  src=""
+  allow="autoplay"
+  allowfullscreen
+  frameborder="0"
+  width="0"
+  height="0"
+></iframe>
+
+<!-- 🔐 Login Page -->
+<div class="overlay" id="loginPage">
+  <h2>Maki Web</h2>
+  <p>Log in to continue...</p>
+  <input type="text" id="username" placeholder="Username"><br><br>
+  <input type="password" id="password" placeholder="Password"><br><br>
+  <button onclick="login()">Login</button>
+</div>
+
+<!-- 💍 Proposal Page -->
+<div class="overlay" id="proposalPage">
+  <div id="proposal">
+    I've loved you since I can't remember when,<br>
+    and I'm gonna love you till I can't forget how.<br><br>
+    <strong>Will you marry me?</strong>
+  </div>
+  <button id="yesBtn" onclick="sayYes()">Yes 💍</button>
+  <button id="noBtn" onclick="shrinkNo()">No 🙈</button>
+</div>
+
+<script>
+  const loginPage = document.getElementById("loginPage");
+  const proposalPage = document.getElementById("proposalPage");
+
+  const users = {
+    "Tyri": "0452",
+    "Sample": "0000",
+    "Maki": "112621",
+    "Pam": "0000"
+  };
+
+  window.onload = function () {
+    loginPage.classList.add("show");
+  };
+
+  function login() {
+    const u = document.getElementById("username").value.trim();
+    const p = document.getElementById("password").value.trim();
+
+    if (users[u] && users[u] === p) {
+      loginPage.style.display = "none";
+      proposalPage.classList.add("show");
+
+      // 🎵 Start YouTube music autoplay
+      const ytplayer = document.getElementById('ytplayer');
+      ytplayer.src = "https://www.youtube.com/embed/wLcGOpZgmj4?autoplay=1&loop=1&playlist=wLcGOpZgmj4&mute=0";
+    } else {
+      alert("Incorrect username or password.");
+    }
+  }
+
+  let yesFont = 16;
+  let noFont = 16;
+
+  function shrinkNo() {
+    const yes = document.getElementById("yesBtn");
+    const no = document.getElementById("noBtn");
+    yesFont += 5;
+    noFont -= 2;
+    yes.style.fontSize = yesFont + "px";
+    no.style.fontSize = noFont + "px";
+    if (noFont <= 4) {
+      no.style.display = "none";
+    }
+  }
+
+  function sayYes() {
+    const heart = document.createElement('div');
+    heart.classList.add('heart');
+    heart.innerHTML = '❤️';
+    document.body.appendChild(heart);
+
+    triggerConfetti();
+
+    setTimeout(() => {
+      alert("💖 She said YES! 💍💖");
+    }, 1000);
+  }
+
+  function triggerConfetti() {
+    for (let i = 0; i < 100; i++) {
+      const sparkle = document.createElement('div');
+      sparkle.classList.add('sparkle');
+      sparkle.style.left = Math.random() * 100 + 'vw';
+      sparkle.style.top = Math.random() * 100 + 'vh';
+      document.body.appendChild(sparkle);
+      setTimeout(() => sparkle.remove(), 1500);
+    }
+  }
+</script>
+
+</body>
+</html>
