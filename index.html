@@ -111,7 +111,7 @@
 <body>
 
 <audio autoplay loop id="backgroundMusic">
-  <source src="proposal.mp3" type="audio/mp3">
+  <source src="where-were-we-going.mp3" type="audio/mp3">
   Your browser does not support the audio tag.
 </audio>
 
@@ -178,7 +178,10 @@
   }
 
   function sayYes() {
-    const weddingSong = new Audio('https://music.youtube.com/watch?v=1CDDGeK7dyo'); // Or upload your own file
+    backgroundMusic.pause();
+    backgroundMusic.currentTime = 0;
+
+    const weddingSong = new Audio('where-were-we-going.mp3');
     weddingSong.play();
 
     const heart = document.createElement('div');
