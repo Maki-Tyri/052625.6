@@ -137,21 +137,31 @@
   const proposalPage = document.getElementById("proposalPage");
   const backgroundMusic = document.getElementById("backgroundMusic");
 
+  // ✅ Multi-user support
+  const users = {
+    "Tyri": "0452",
+    "Sample": "0000",
+    "Maria": "5678",
+    "John": "pass123"
+    // Add more here
+  };
+
   window.onload = function () {
     loginPage.classList.add("show");
   };
 
   function login() {
-  const u = document.getElementById("username").value.trim();
-  const p = document.getElementById("password").value.trim();
+    const u = document.getElementById("username").value.trim();
+    const p = document.getElementById("password").value.trim();
 
-  if ((u === "Tyri" && p === "0452") || (u === "Sample" && p === "0000")) {
-    loginPage.style.display = "none";
-    proposalPage.classList.add("show");
-  } else {
-    alert("Incorrect username or password.");
+    if (users[u] && users[u] === p) {
+      loginPage.style.display = "none";
+      proposalPage.classList.add("show");
+    } else {
+      alert("Incorrect username or password.");
+    }
   }
-}
+
   let yesFont = 16;
   let noFont = 16;
 
@@ -168,20 +178,16 @@
   }
 
   function sayYes() {
-    // Play wedding song on "Yes"
-    const weddingSong = new Audio('https://music.youtube.com/watch?v=1CDDGeK7dyo'); // Upload the wedding song file
+    const weddingSong = new Audio('https://music.youtube.com/watch?v=1CDDGeK7dyo'); // Or upload your own file
     weddingSong.play();
-    
-    // Heartbeat animation
+
     const heart = document.createElement('div');
     heart.classList.add('heart');
     heart.innerHTML = '❤️';
     document.body.appendChild(heart);
 
-    // Confetti effect
     triggerConfetti();
 
-    // Display celebration message
     setTimeout(() => {
       alert("💖 She said YES! 💍💖");
     }, 1000);
