@@ -110,32 +110,15 @@
 </head>
 <body>
 
-<!-- ✅ Elijah Woods - Where Were Going -->
 <audio autoplay loop id="backgroundMusic">
   <source src="where-were-going.mp3" type="audio/mp3">
   Your browser does not support the audio tag.
 </audio>
 
-<div class="overlay" id="loginPage">
-  <h2>Login</h2>
-  <input type="text" id="username" placeholder="Username"><br>
-  <input type="password" id="password" placeholder="Password"><br>
-  <button onclick="login()">Login</button>
-</div>
-
-<div class="overlay" id="proposalPage">
-  <div id="proposal">
-    I've loved you since I can't remember when,<br>
-    and I'm gonna love you till I can't forget how.<br><br>
-    <strong>Will you marry me?</strong>
-  </div>
-  <button id="yesBtn" onclick="sayYes()">Yes 💍</button>
-  <button id="noBtn" onclick="shrinkNo()">No 🙈</button>
-</div>
-
 <script>
   const loginPage = document.getElementById("loginPage");
   const proposalPage = document.getElementById("proposalPage");
+  const backgroundMusic = document.getElementById("backgroundMusic");
 
   // ✅ Multi-user support
   const users = {
@@ -156,6 +139,11 @@
     if (users[u] && users[u] === p) {
       loginPage.style.display = "none";
       proposalPage.classList.add("show");
+
+      // ✅ Play background music only after user interaction
+      backgroundMusic.play().catch(err => {
+        console.warn("Autoplay failed:", err);
+      });
     } else {
       alert("Incorrect username or password.");
     }
@@ -202,6 +190,7 @@
     }
   }
 </script>
+
 
 </body>
 </html>
