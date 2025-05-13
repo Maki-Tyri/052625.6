@@ -110,8 +110,9 @@
 </head>
 <body>
 
-<audio id="backgroundMusic" loop>
-  <source src="/mnt/data/7b132877-0462-4d1b-9e01-539a5fe3050e.mp3" type="audio/mp3">
+<!-- ✅ Elijah Woods - Where Were Going -->
+<audio autoplay loop id="backgroundMusic">
+  <source src="where-were-going.mp3" type="audio/mp3">
   Your browser does not support the audio tag.
 </audio>
 
@@ -135,8 +136,8 @@
 <script>
   const loginPage = document.getElementById("loginPage");
   const proposalPage = document.getElementById("proposalPage");
-  const backgroundMusic = document.getElementById("backgroundMusic");
 
+  // ✅ Multi-user support
   const users = {
     "Tyri": "0452",
     "Sample": "0000",
@@ -155,11 +156,6 @@
     if (users[u] && users[u] === p) {
       loginPage.style.display = "none";
       proposalPage.classList.add("show");
-
-      // Start music on user interaction
-      backgroundMusic.play().catch(() => {
-        console.warn("Autoplay was blocked by browser. User needs to click to enable.");
-      });
     } else {
       alert("Incorrect username or password.");
     }
@@ -181,10 +177,6 @@
   }
 
   function sayYes() {
-    backgroundMusic.pause();
-    backgroundMusic.currentTime = 0;
-    backgroundMusic.play();
-
     const heart = document.createElement('div');
     heart.classList.add('heart');
     heart.innerHTML = '❤️';
