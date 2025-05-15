@@ -8,10 +8,14 @@
     body {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: url('https://static.wikia.nocookie.net/p__/images/2/23/Sadness_Full_Body_2.webp/revision/latest?cb=20240412213000&path-prefix=protagonist') no-repeat center center fixed;
+      background: url('https://i.pinimg.com/736x/d7/00/04/d70004c89987ac91aef3f39d6f468655.jpg') no-repeat center center fixed;
       background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
       height: 100vh;
       overflow: hidden;
+      transition: background-image 0.5s ease-in-out;
     }
 
     .overlay {
@@ -197,6 +201,11 @@
     }
   }
 
+  function setBackground(url) {
+    document.body.style.background = `url('${url}') no-repeat center center fixed`;
+    document.body.style.backgroundSize = "cover";
+  }
+
   let noScale = 1;
   let noClicked = false;
 
@@ -204,18 +213,18 @@
     const noBtn = document.getElementById("noBtn");
 
     if (!noClicked) {
-      document.body.style.backgroundImage = "url('https://static.wikia.nocookie.net/insideout/images/0/0f/Inside-out-d150_20mcs.sel16.171.jpg/revision/latest/scale-to-width-down/1000?cb=20160306084146')";
+      setBackground('https://i.pinimg.com/736x/04/ef/2c/04ef2cbeca3bc0548f5fae3f0558c494.jpg');
       noClicked = true;
     }
 
     if (noScale > 0.1) {
-      noScale -= 0.05; // Shrink gradually after each click
+      noScale -= 0.05;
       noBtn.style.transform = `scale(${noScale})`;
     }
 
     if (noScale <= 0.1) {
       noBtn.style.display = "none";
-      enlargeYes();  // Enlarge the "Yes" button after "No" disappears
+      enlargeYes();
     }
   }
 
@@ -223,19 +232,17 @@
     const yesBtn = document.getElementById("yesBtn");
     let yesScale = 1;
 
-    // Gradually enlarge the "Yes" button
     const enlargeInterval = setInterval(() => {
       yesScale += 0.05;
       yesBtn.style.transform = `scale(${yesScale})`;
-
       if (yesScale >= 2) {
-        clearInterval(enlargeInterval); // Stop enlarging once it's big enough
+        clearInterval(enlargeInterval);
       }
     }, 100);
   }
 
   function sayYes() {
-    document.body.style.backgroundImage = "url('https://static.wikia.nocookie.net/insideout/images/9/9d/A_DEAD_MOUSE%21.png/revision/latest/scale-to-width-down/1000?cb=20160222221405')";
+    setBackground('https://i.pinimg.com/736x/5a/9e/06/5a9e06ef555717d951d00b6403715b95.jpg');
 
     for (let i = 0; i < 50; i++) {
       const heart = document.createElement('div');
