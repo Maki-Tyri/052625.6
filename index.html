@@ -10,12 +10,11 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: url('https://i.pinimg.com/736x/d7/00/04/d70004c89987ac91aef3f39d6f468655.jpg') no-repeat center center fixed;
       background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
       background-attachment: fixed;
       height: 100vh;
       overflow: hidden;
       transition: background-image 0.5s ease-in-out;
+      color: #ffffff;
     }
 
     .overlay {
@@ -24,16 +23,17 @@
       border-radius: 15px;
       text-align: center;
       width: 90%;
-      max-width: 400px;
+      max-width: 450px;
       margin: auto;
       margin-top: 20%;
       opacity: 0;
       animation: fadeIn 2s ease-in-out forwards;
+      position: relative;
     }
 
     .login-box {
       background-color: white;
-      padding: 20px;
+      padding: 25px;
       border-radius: 15px;
       box-shadow: 0 0 15px rgba(0,0,0,0.2);
     }
@@ -44,38 +44,53 @@
     }
 
     h2 {
-      font-size: 24px;
+      font-size: 28px;
       color: #1877f2;
       margin-bottom: 10px;
     }
 
     #proposal {
-      font-size: 30px;
+      font-size: 32px;
+      font-weight: 600;
+      line-height: 1.5;
       margin-bottom: 20px;
       color: #fff;
       text-shadow: 1px 1px 4px #000;
     }
 
+    input {
+      font-size: 16px;
+      padding: 10px;
+      width: 90%;
+      max-width: 250px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
     button {
-      padding: 10px 20px;
+      padding: 12px 24px;
       border: none;
       border-radius: 8px;
       margin: 10px;
-      font-size: 16px;
+      font-size: 18px;
+      font-weight: bold;
       cursor: pointer;
       transition: all 0.3s ease;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      position: relative;
     }
 
     #yesBtn {
       background-color: #ff69b4;
       color: white;
+      z-index: 1;
     }
 
     #noBtn {
-      background-color: #aaa;
+      background-color: #888;
       color: white;
-      transform: scale(1);
+      z-index: 2;
+      position: absolute;
     }
 
     .heart {
@@ -97,73 +112,58 @@
       border-radius: 50%;
     }
 
-    .heart::before {
-      top: -10px;
-      left: 0;
-    }
-
-    .heart::after {
-      left: -10px;
-      top: 0;
-    }
+    .heart::before { top: -10px; left: 0; }
+    .heart::after { left: -10px; top: 0; }
 
     @keyframes explode {
       0% { opacity: 1; transform: scale(1) rotate(45deg); }
       100% { opacity: 0; transform: scale(4) rotate(45deg); top: -200px; }
     }
 
-    #loginPage, #proposalPage {
-      display: none;
-    }
+    #loginPage, #proposalPage { display: none; }
+    #loginPage.show, #proposalPage.show { display: block; }
 
-    #loginPage.show, #proposalPage.show {
-      display: block;
-    }
-
-    iframe {
-      display: none;
-    }
+    iframe { display: none; }
 
     @media (max-width: 600px) {
-      .overlay {
-        margin-top: 30%;
-      }
+      .overlay { margin-top: 30%; }
+      #proposal { font-size: 24px; }
+      input, button { font-size: 16px; }
+    }
 
-      #proposal {
-        font-size: 24px;
-      }
+    #countdown, #finalMessage {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 40px;
+      font-weight: bold;
+      color: #fff;
+      text-shadow: 2px 2px 6px #000;
+      display: none;
+      z-index: 10;
+      text-align: center;
+    }
 
-      button {
-        font-size: 14px;
-      }
+    #finalMessage {
+      animation: fadeIn 2s ease forwards;
     }
   </style>
 </head>
 <body>
 
-<!-- 🎵 YouTube Music -->
-<iframe
-  id="ytplayer"
-  src=""
-  allow="autoplay"
-  allowfullscreen
-  frameborder="0"
-  width="0"
-  height="0"
-></iframe>
+<iframe id="ytplayer" src="" allow="autoplay" allowfullscreen frameborder="0" width="0" height="0"></iframe>
 
-<!-- 🔐 Login Page -->
 <div class="overlay" id="loginPage">
   <div class="login-box">
     <h2>Maki Web</h2>
-    <p>Log in to continue...</p>
+    <p style="font-size: 16px;">Log in to continue...</p>
     <input type="text" id="username" placeholder="Username"><br><br>
     <input type="password" id="password" placeholder="Password"><br><br>
     <button onclick="login()">Login</button>
   </div>
 </div>
 
-<!-- 💍 Proposal Page -->
 <div class="overlay" id="proposalPage">
   <div id="proposal">
     I've loved you since I can't remember when,<br>
@@ -173,6 +173,9 @@
   <button id="yesBtn" onclick="sayYes()">Yes 💍</button>
   <button id="noBtn" onclick="shrinkNo()">No 🙈</button>
 </div>
+
+<div id="countdown">3</div>
+<div id="finalMessage">💖 She said YES! 💍💖</div>
 
 <script>
   const users = {
@@ -188,12 +191,9 @@
   function login() {
     const u = document.getElementById("username").value.trim();
     const p = document.getElementById("password").value.trim();
-
     if (users[u] === p) {
       document.getElementById("loginPage").style.display = "none";
       document.getElementById("proposalPage").classList.add("show");
-
-      // Start YouTube music autoplay
       const ytplayer = document.getElementById('ytplayer');
       ytplayer.src = "https://www.youtube.com/embed/wLcGOpZgmj4?autoplay=1&loop=1&playlist=wLcGOpZgmj4";
     } else {
@@ -207,10 +207,12 @@
   }
 
   let noScale = 1;
+  let yesScale = 1;
   let noClicked = false;
 
   function shrinkNo() {
     const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
 
     if (!noClicked) {
       setBackground('https://i.pinimg.com/736x/04/ef/2c/04ef2cbeca3bc0548f5fae3f0558c494.jpg');
@@ -222,28 +224,24 @@
       noBtn.style.transform = `scale(${noScale})`;
     }
 
+    const overlay = document.getElementById("proposalPage");
+    const maxX = overlay.clientWidth - noBtn.offsetWidth;
+    const maxY = overlay.clientHeight - noBtn.offsetHeight;
+    const randX = Math.floor(Math.random() * maxX);
+    const randY = Math.floor(Math.random() * maxY);
+    noBtn.style.left = `${randX}px`;
+    noBtn.style.top = `${randY}px`;
+
+    yesScale += 0.05;
+    yesBtn.style.transform = `scale(${yesScale})`;
+
     if (noScale <= 0.1) {
       noBtn.style.display = "none";
-      enlargeYes();
     }
-  }
-
-  function enlargeYes() {
-    const yesBtn = document.getElementById("yesBtn");
-    let yesScale = 1;
-
-    const enlargeInterval = setInterval(() => {
-      yesScale += 0.05;
-      yesBtn.style.transform = `scale(${yesScale})`;
-      if (yesScale >= 2) {
-        clearInterval(enlargeInterval);
-      }
-    }, 100);
   }
 
   function sayYes() {
     setBackground('https://i.pinimg.com/736x/5a/9e/06/5a9e06ef555717d951d00b6403715b95.jpg');
-
     for (let i = 0; i < 50; i++) {
       const heart = document.createElement('div');
       heart.classList.add('heart');
@@ -252,7 +250,6 @@
       document.body.appendChild(heart);
       setTimeout(() => heart.remove(), 1000);
     }
-
     for (let i = 0; i < 100; i++) {
       const sparkle = document.createElement('div');
       sparkle.classList.add('heart');
@@ -263,9 +260,26 @@
       setTimeout(() => sparkle.remove(), 1200);
     }
 
-    setTimeout(() => {
-      alert("💖 She said YES! 💍💖");
-    }, 1200);
+    // Countdown + message
+    let count = 3;
+    const countdownEl = document.getElementById('countdown');
+    const finalMessage = document.getElementById('finalMessage');
+    countdownEl.style.display = 'block';
+    countdownEl.innerText = count;
+
+    const countdownInterval = setInterval(() => {
+      count--;
+      if (count > 0) {
+        countdownEl.innerText = count;
+      } else {
+        clearInterval(countdownInterval);
+        countdownEl.style.display = 'none';
+        finalMessage.style.display = 'block';
+        setTimeout(() => {
+          window.location.href = 'https://maki-tyri.github.io/surprise.html/'; // Change this if needed
+        }, 4000);
+      }
+    }, 1000);
   }
 </script>
 
