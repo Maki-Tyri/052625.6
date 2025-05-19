@@ -138,15 +138,32 @@
       transform: translate(-50%, -50%);
       font-size: 40px;
       font-weight: bold;
+      text-align: center;
+      z-index: 10;
+      display: none;
+    }
+
+    #countdown {
       color: #fff;
       text-shadow: 2px 2px 6px #000;
-      display: none;
-      z-index: 10;
-      text-align: center;
     }
 
     #finalMessage {
-      animation: fadeIn 2s ease forwards;
+      font-size: 3.5rem;
+      color: #d81e5b;
+      text-shadow: 0 0 10px #ff8aa1, 0 0 20px #ffb6c1, 0 0 30px #fff;
+      animation: popUp 1.5s ease-out;
+    }
+
+    @keyframes popUp {
+      from {
+        transform: translate(-50%, -50%) scale(0.5);
+        opacity: 0;
+      }
+      to {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+      }
     }
   </style>
 </head>
@@ -175,13 +192,13 @@
 </div>
 
 <div id="countdown">3</div>
-<div id="finalMessage">💖 She said YES! 💍💖</div>
+<div id="finalMessage">💖💍Tyri said YES!💍💖</div>
+
 
 <script>
   const users = {
-    "Tyri": "0452",
-    "Sample": "0000",
-    "Maki": "112621"
+    "Tyri": "060425",
+    "Maki": "060425"
   };
 
   window.onload = () => {
@@ -260,7 +277,6 @@
       setTimeout(() => sparkle.remove(), 1200);
     }
 
-    // Countdown + message
     let count = 3;
     const countdownEl = document.getElementById('countdown');
     const finalMessage = document.getElementById('finalMessage');
