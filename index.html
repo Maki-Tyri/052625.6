@@ -2,18 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Play Music and Redirect</title>
+  <title>Play Music and Load Pages</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     body {
       background-color: #0d0d0d;
       color: white;
       font-family: Arial, sans-serif;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      text-align: center;
+      padding: 20px;
     }
 
     button {
@@ -25,11 +22,19 @@
       border-radius: 10px;
       cursor: pointer;
       box-shadow: 0 0 15px rgba(255, 105, 180, 0.6);
+      margin-top: 20px;
     }
 
     #ytplayer {
-      margin-top: 20px;
       display: none;
+    }
+
+    .content-section {
+      margin-top: 40px;
+      width: 90%;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
     }
   </style>
 </head>
@@ -46,17 +51,40 @@
     allowfullscreen>
   </iframe>
 
+  <!-- Loaded content goes here -->
+  <div id="proposal" class="content-section"></div>
+  <div id="surprise" class="content-section"></div>
+
   <script>
     function playMusic() {
-      // Show the iframe and set the YouTube link
       const iframe = document.getElementById("ytplayer");
       iframe.src = "https://www.youtube.com/embed/KS_fRbZ0TJY?autoplay=1";
       iframe.style.display = "block";
 
-      // Redirect after delay
+      // Load Proposal.html after 8 seconds
       setTimeout(() => {
-        window.location.href = "Proposal.html"; // change to your redirect page
-      }, 8000); // 8 seconds delay (adjust based on your needs)
+        fetchAndInsert('Proposal.html', 'proposal');
+      }, 8000);
+
+      // Load Surprise.html after 18 seconds (8 + 10)
+      setTimeout(() => {
+        fetchAndInsert('Surprise.html', 'surprise');
+      }, 18000);
+    }
+
+    function fetchAndInsert(filename, targetId) {
+      fetch(filename)
+        .then(response => {
+          if (!response.ok) throw new Error(`Failed to load ${filename}`);
+          return response.text();
+        })
+        .then(html => {
+          document.getElementById(targetId).innerHTML = html;
+        })
+        .catch(error => {
+          document.getElementById(targetId).innerHTML = "<p style='color:red;'>Error loading content.</p>";
+          console.error(error);
+        });
     }
   </script>
 
