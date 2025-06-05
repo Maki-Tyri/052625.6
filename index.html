@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Play Music and Redirect</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      background-color: #0d0d0d;
+      color: white;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    button {
+      padding: 15px 30px;
+      font-size: 18px;
+      background: #ff69b4;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(255, 105, 180, 0.6);
+    }
+
+    #ytplayer {
+      margin-top: 20px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Click to play the song 🎵</h1>
+  <button onclick="playMusic()">Play Music</button>
+
+  <!-- YouTube Embed Iframe -->
+  <iframe id="ytplayer" width="0" height="0"
+    src=""
+    frameborder="0"
+    allow="autoplay"
+    allowfullscreen>
+  </iframe>
+
+  <script>
+    function playMusic() {
+      // Show the iframe and set the YouTube link
+      const iframe = document.getElementById("ytplayer");
+      iframe.src = "https://www.youtube.com/embed/KS_fRbZ0TJY?autoplay=1";
+      iframe.style.display = "block";
+
+      // Redirect after delay
+      setTimeout(() => {
+        window.location.href = "Proposal.html"; // change to your redirect page
+      }, 8000); // 8 seconds delay (adjust based on your needs)
+    }
+  </script>
+
+</body>
+</html>
